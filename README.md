@@ -1,6 +1,6 @@
 # Internship-Program
  With Tecnosignia
-# Omkar Swami
+# Onkar Swami
 
 ## Java Developer | Aspiring Data Analyst | Problem Solver
 
