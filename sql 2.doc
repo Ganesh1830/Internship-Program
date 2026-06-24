@@ -1,0 +1,881 @@
+<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Text To Word</title></head><body><h2>1. Add Data to Existing Table</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">INSERT INTO Employee VALUES
+(113,'Ajay',67000,'2025-02-15',2),
+(114,'Meera',72000,'2025-01-20',3),
+(115,'Suresh',58000,'2025-03-05',4),
+(116,'Kavita',88000,'2024-10-12',3),
+(117,'Arjun',62000,'2025-04-25',2);
+</code></pre>
+<h3>Output</h3>
+<pre><code class="language-text">Query OK, 5 rows affected
+</code></pre>
+<hr>
+<h2>2. Window Function - RANK()</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT emp_id,
+       emp_name,
+       salary,
+       RANK() OVER(ORDER BY salary DESC) AS salary_rank
+FROM Employee;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Emp ID</th>
+<th>Name</th>
+<th>Salary</th>
+<th>Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>106</td>
+<td>Neha</td>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>116</td>
+<td>Kavita</td>
+<td>88000</td>
+<td>2</td>
+</tr>
+<tr>
+<td>104</td>
+<td>Sneha</td>
+<td>85000</td>
+<td>3</td>
+</tr>
+<tr>
+<td>109</td>
+<td>Karan</td>
+<td>80000</td>
+<td>4</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Priya</td>
+<td>75000</td>
+<td>5</td>
+</tr>
+<tr>
+<td>114</td>
+<td>Meera</td>
+<td>72000</td>
+<td>6</td>
+</tr>
+<tr>
+<td>107</td>
+<td>Rohit</td>
+<td>70000</td>
+<td>7</td>
+</tr>
+<tr>
+<td>113</td>
+<td>Ajay</td>
+<td>67000</td>
+<td>8</td>
+</tr>
+<tr>
+<td>103</td>
+<td>Rahul</td>
+<td>65000</td>
+<td>9</td>
+</tr>
+<tr>
+<td>117</td>
+<td>Arjun</td>
+<td>62000</td>
+<td>10</td>
+</tr>
+<tr>
+<td>108</td>
+<td>Pooja</td>
+<td>60000</td>
+<td>11</td>
+</tr>
+<tr>
+<td>115</td>
+<td>Suresh</td>
+<td>58000</td>
+<td>12</td>
+</tr>
+<tr>
+<td>110</td>
+<td>Anjali</td>
+<td>55000</td>
+<td>13</td>
+</tr>
+<tr>
+<td>101</td>
+<td>Amit</td>
+<td>50000</td>
+<td>14</td>
+</tr>
+<tr>
+<td>105</td>
+<td>Vikas</td>
+<td>45000</td>
+<td>15</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>3. Window Function - ROW_NUMBER()</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT emp_id,
+       emp_name,
+       salary,
+       ROW_NUMBER() OVER(ORDER BY salary DESC) AS row_no
+FROM Employee;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Salary</th>
+<th>Row Number</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neha</td>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Kavita</td>
+<td>88000</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Sneha</td>
+<td>85000</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Karan</td>
+<td>80000</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Priya</td>
+<td>75000</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>4. Window Function - DENSE_RANK()</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT emp_id,
+       emp_name,
+       salary,
+       DENSE_RANK() OVER(ORDER BY salary DESC) AS dense_rank
+FROM Employee;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Salary</th>
+<th>Dense Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neha</td>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>Kavita</td>
+<td>88000</td>
+<td>2</td>
+</tr>
+<tr>
+<td>Sneha</td>
+<td>85000</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Karan</td>
+<td>80000</td>
+<td>4</td>
+</tr>
+<tr>
+<td>Priya</td>
+<td>75000</td>
+<td>5</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. CASE WHEN</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT emp_name,
+       salary,
+       CASE
+           WHEN salary &gt;= 80000 THEN 'High Salary'
+           WHEN salary &gt;= 60000 THEN 'Medium Salary'
+           ELSE 'Low Salary'
+       END AS Salary_Category
+FROM Employee;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Employee</th>
+<th>Salary</th>
+<th>Category</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Neha</td>
+<td>95000</td>
+<td>High Salary</td>
+</tr>
+<tr>
+<td>Kavita</td>
+<td>88000</td>
+<td>High Salary</td>
+</tr>
+<tr>
+<td>Sneha</td>
+<td>85000</td>
+<td>High Salary</td>
+</tr>
+<tr>
+<td>Karan</td>
+<td>80000</td>
+<td>High Salary</td>
+</tr>
+<tr>
+<td>Priya</td>
+<td>75000</td>
+<td>Medium Salary</td>
+</tr>
+<tr>
+<td>Rahul</td>
+<td>65000</td>
+<td>Medium Salary</td>
+</tr>
+<tr>
+<td>Amit</td>
+<td>50000</td>
+<td>Low Salary</td>
+</tr>
+<tr>
+<td>Vikas</td>
+<td>45000</td>
+<td>Low Salary</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Create View</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">CREATE VIEW EmployeeDetails AS
+SELECT e.emp_id,
+       e.emp_name,
+       e.salary,
+       d.dept_name
+FROM Employee e
+JOIN Department d
+ON e.dept_id = d.dept_id;
+</code></pre>
+<h3>Output</h3>
+<pre><code class="language-text">View EmployeeDetails created successfully.
+</code></pre>
+<hr>
+<h2>7. Display View Data</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT * FROM EmployeeDetails;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Emp ID</th>
+<th>Name</th>
+<th>Salary</th>
+<th>Department</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>101</td>
+<td>Amit</td>
+<td>50000</td>
+<td>HR</td>
+</tr>
+<tr>
+<td>102</td>
+<td>Priya</td>
+<td>75000</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>103</td>
+<td>Rahul</td>
+<td>65000</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>104</td>
+<td>Sneha</td>
+<td>85000</td>
+<td>Finance</td>
+</tr>
+<tr>
+<td>105</td>
+<td>Vikas</td>
+<td>45000</td>
+<td>HR</td>
+</tr>
+<tr>
+<td>106</td>
+<td>Neha</td>
+<td>95000</td>
+<td>Finance</td>
+</tr>
+<tr>
+<td>107</td>
+<td>Rohit</td>
+<td>70000</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>108</td>
+<td>Pooja</td>
+<td>60000</td>
+<td>Marketing</td>
+</tr>
+<tr>
+<td>109</td>
+<td>Karan</td>
+<td>80000</td>
+<td>IT</td>
+</tr>
+<tr>
+<td>110</td>
+<td>Anjali</td>
+<td>55000</td>
+<td>HR</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Create Audit Table</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">CREATE TABLE Employee_Audit(
+audit_id INT AUTO_INCREMENT PRIMARY KEY,
+emp_id INT,
+action_type VARCHAR(50),
+action_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+</code></pre>
+<h3>Output</h3>
+<pre><code class="language-text">Table Employee_Audit created successfully.
+</code></pre>
+<hr>
+<h2>9. Create Trigger</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">CREATE TRIGGER trg_employee_insert
+AFTER INSERT
+ON Employee
+FOR EACH ROW
+INSERT INTO Employee_Audit(emp_id,action_type)
+VALUES(NEW.emp_id,'INSERT');
+</code></pre>
+<h3>Output</h3>
+<pre><code class="language-text">Trigger created successfully.
+</code></pre>
+<hr>
+<h2>10. Test Trigger</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">INSERT INTO Employee
+VALUES(118,'Raj',70000,'2025-06-20',1);
+</code></pre>
+<h3>Output</h3>
+<pre><code class="language-text">1 row inserted.
+</code></pre>
+<hr>
+<h2>11. Verify Trigger Output</h2>
+<h3>Query</h3>
+<pre><code class="language-sql">SELECT * FROM Employee_Audit;
+</code></pre>
+<h3>Output</h3>
+<table>
+<thead>
+<tr>
+<th>Audit ID</th>
+<th>Emp ID</th>
+<th>Action Type</th>
+<th>Action Time</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>118</td>
+<td>INSERT</td>
+<td>2025-06-20 10:30:00</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h1>SQL Interview Questions and Answers</h1>
+<hr>
+<h2>1. What is the difference between RANK(), DENSE_RANK(), and ROW_NUMBER()?</h2>
+<h3>ROW_NUMBER()</h3>
+<p>Assigns a unique number to each row.</p>
+<h3>Example</h3>
+<table>
+<thead>
+<tr>
+<th>Salary</th>
+<th>ROW_NUMBER</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>95000</td>
+<td>2</td>
+</tr>
+<tr>
+<td>85000</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Even if salaries are the same, row numbers are different.</p>
+<hr>
+<h3>RANK()</h3>
+<p>Assigns the same rank to duplicate values but skips the next rank.</p>
+<h3>Example</h3>
+<table>
+<thead>
+<tr>
+<th>Salary</th>
+<th>Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>85000</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>Rank 2 is skipped.</p>
+<hr>
+<h3>DENSE_RANK()</h3>
+<p>Assigns the same rank to duplicate values and does not skip ranks.</p>
+<h3>Example</h3>
+<table>
+<thead>
+<tr>
+<th>Salary</th>
+<th>Dense Rank</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>95000</td>
+<td>1</td>
+</tr>
+<tr>
+<td>85000</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>2. What is a Window Function?</h2>
+<h3>Answer</h3>
+<p>A Window Function performs calculations across a set of rows related to the current row without grouping the result.</p>
+<h3>Examples</h3>
+<ul>
+<li>
+<p>RANK()</p>
+</li>
+<li>
+<p>DENSE_RANK()</p>
+</li>
+<li>
+<p>ROW_NUMBER()</p>
+</li>
+<li>
+<p>LEAD()</p>
+</li>
+<li>
+<p>LAG()</p>
+</li>
+<li>
+<p>SUM() OVER()</p>
+</li>
+<li>
+<p>AVG() OVER()</p>
+</li>
+</ul>
+<h3>Syntax</h3>
+<pre><code class="language-sql">Function_Name() OVER(
+    PARTITION BY column_name
+    ORDER BY column_name
+)
+</code></pre>
+<h3>Uses</h3>
+<ul>
+<li>
+<p>Ranking</p>
+</li>
+<li>
+<p>Running totals</p>
+</li>
+<li>
+<p>Moving averages</p>
+</li>
+<li>
+<p>Data analysis</p>
+</li>
+</ul>
+<hr>
+<h2>3. Why do we use CASE WHEN?</h2>
+<h3>Answer</h3>
+<p>CASE WHEN is used to implement conditional logic in SQL.</p>
+<p>It works like an IF-ELSE statement in programming languages.</p>
+<h3>Example</h3>
+<pre><code class="language-sql">CASE
+    WHEN salary &gt; 80000 THEN 'High'
+    WHEN salary &gt; 60000 THEN 'Medium'
+    ELSE 'Low'
+END
+</code></pre>
+<h3>Uses</h3>
+<ul>
+<li>
+<p>Data categorization</p>
+</li>
+<li>
+<p>Conditional calculations</p>
+</li>
+<li>
+<p>Report generation</p>
+</li>
+</ul>
+<hr>
+<h2>4. What is a View and why is it used?</h2>
+<h3>Answer</h3>
+<p>A View is a virtual table created from one or more tables using a query.</p>
+<p>It does not store data physically.</p>
+<h3>Example</h3>
+<pre><code class="language-sql">CREATE VIEW EmployeeDetails AS
+SELECT emp_name,salary
+FROM Employee;
+</code></pre>
+<h3>Advantages</h3>
+<ul>
+<li>
+<p>Security</p>
+</li>
+<li>
+<p>Simplifies complex queries</p>
+</li>
+<li>
+<p>Reusability</p>
+</li>
+<li>
+<p>Data abstraction</p>
+</li>
+</ul>
+<hr>
+<h2>5. Can data be updated through a View?</h2>
+<h3>Answer</h3>
+<p>Yes, but with some restrictions.</p>
+<h3>Updatable View</h3>
+<pre><code class="language-sql">CREATE VIEW EmpView AS
+SELECT emp_id, emp_name
+FROM Employee;
+</code></pre>
+<pre><code class="language-sql">UPDATE EmpView
+SET emp_name='Raj'
+WHERE emp_id=101;
+</code></pre>
+<h3>Non-Updatable View</h3>
+<p>Views containing:</p>
+<ul>
+<li>
+<p>GROUP BY</p>
+</li>
+<li>
+<p>Aggregate Functions</p>
+</li>
+<li>
+<p>DISTINCT</p>
+</li>
+<li>
+<p>UNION</p>
+</li>
+</ul>
+<p>cannot usually be updated.</p>
+<hr>
+<h2>6. What is a Trigger?</h2>
+<h3>Answer</h3>
+<p>A Trigger is a database object that executes automatically when an event occurs on a table.</p>
+<h3>Events</h3>
+<ul>
+<li>
+<p>INSERT</p>
+</li>
+<li>
+<p>UPDATE</p>
+</li>
+<li>
+<p>DELETE</p>
+</li>
+</ul>
+<h3>Example</h3>
+<pre><code class="language-sql">CREATE TRIGGER trg_insert
+AFTER INSERT
+ON Employee
+FOR EACH ROW
+...
+</code></pre>
+<h3>Uses</h3>
+<ul>
+<li>
+<p>Audit logging</p>
+</li>
+<li>
+<p>Validation</p>
+</li>
+<li>
+<p>Security</p>
+</li>
+<li>
+<p>Automatic updates</p>
+</li>
+</ul>
+<hr>
+<h2>7. What are BEFORE and AFTER Triggers?</h2>
+<h3>BEFORE Trigger</h3>
+<p>Runs before the event occurs.</p>
+<h3>Example</h3>
+<pre><code class="language-sql">BEFORE INSERT
+</code></pre>
+<h3>Uses</h3>
+<ul>
+<li>
+<p>Validation</p>
+</li>
+<li>
+<p>Data modification</p>
+</li>
+</ul>
+<hr>
+<h3>AFTER Trigger</h3>
+<p>Runs after the event occurs.</p>
+<h3>Example</h3>
+<pre><code class="language-sql">AFTER INSERT
+</code></pre>
+<h3>Uses</h3>
+<ul>
+<li>
+<p>Audit logs</p>
+</li>
+<li>
+<p>Notifications</p>
+</li>
+<li>
+<p>History tracking</p>
+</li>
+</ul>
+<hr>
+<h2>8. What is the purpose of an Audit Table?</h2>
+<h3>Answer</h3>
+<p>An Audit Table stores records of database activities.</p>
+<h3>Example</h3>
+<table>
+<thead>
+<tr>
+<th>Audit ID</th>
+<th>Employee ID</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>101</td>
+<td>INSERT</td>
+</tr>
+<tr>
+<td>2</td>
+<td>102</td>
+<td>UPDATE</td>
+</tr>
+</tbody>
+</table>
+<h3>Benefits</h3>
+<ul>
+<li>
+<p>Tracks changes</p>
+</li>
+<li>
+<p>Maintains history</p>
+</li>
+<li>
+<p>Supports compliance requirements</p>
+</li>
+<li>
+<p>Helps debugging</p>
+</li>
+</ul>
+<hr>
+<h2>9. What is the difference between a Stored Procedure and a Trigger?</h2>
+<table>
+<thead>
+<tr>
+<th>Stored Procedure</th>
+<th>Trigger</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Executed manually</td>
+<td>Executed automatically</td>
+</tr>
+<tr>
+<td>Called using EXEC</td>
+<td>Called by database events</td>
+</tr>
+<tr>
+<td>Can accept parameters</td>
+<td>Cannot accept parameters directly</td>
+</tr>
+<tr>
+<td>Used for business logic</td>
+<td>Used for automation</td>
+</tr>
+</tbody>
+</table>
+<h3>Stored Procedure Example</h3>
+<pre><code class="language-sql">CREATE PROCEDURE GetEmployees()
+BEGIN
+    SELECT * FROM Employee;
+END;
+</code></pre>
+<h3>Trigger Example</h3>
+<pre><code class="language-sql">CREATE TRIGGER trg_insert
+AFTER INSERT
+ON Employee
+FOR EACH ROW
+...
+</code></pre>
+<hr>
+<h2>10. Where are Window Functions used in Real Projects?</h2>
+<h3>Banking Systems</h3>
+<p>Finding top customers by transaction amount.</p>
+<h3>E-Commerce</h3>
+<p>Ranking products by sales.</p>
+<h3>HR Systems</h3>
+<p>Finding highest-paid employees in each department.</p>
+<h3>Analytics</h3>
+<p>Calculating running totals and trends.</p>
+<h3>Example</h3>
+<pre><code class="language-sql">SELECT emp_name,
+       salary,
+       RANK() OVER(
+           PARTITION BY dept_id
+           ORDER BY salary DESC
+       ) AS rank_no
+FROM Employee;
+</code></pre>
+<hr>
+<h1>Frequently Asked Interview Follow-up Questions</h1>
+<h3>What is PARTITION BY?</h3>
+<p>It divides rows into groups before applying a window function.</p>
+<pre><code class="language-sql">RANK() OVER(
+PARTITION BY dept_id
+ORDER BY salary DESC
+)
+</code></pre>
+<hr>
+<h3>Difference Between WHERE and HAVING?</h3>
+<table>
+<thead>
+<tr>
+<th>WHERE</th>
+<th>HAVING</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Filters rows</td>
+<td>Filters groups</td>
+</tr>
+<tr>
+<td>Used before GROUP BY</td>
+<td>Used after GROUP BY</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>Difference Between DELETE, TRUNCATE, and DROP?</h3>
+<table>
+<thead>
+<tr>
+<th>DELETE</th>
+<th>TRUNCATE</th>
+<th>DROP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Deletes rows</td>
+<td>Removes all rows</td>
+<td>Removes table</td>
+</tr>
+<tr>
+<td>Can use WHERE</td>
+<td>Cannot use WHERE</td>
+<td>Removes structure</td>
+</tr>
+<tr>
+<td>Can rollback</td>
+<td>Limited rollback</td>
+<td>Cannot recover easily</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h3>What is a Foreign Key?</h3>
+<p>A Foreign Key creates a relationship between two tables.</p>
+<p>Example:</p>
+<pre><code class="language-sql">FOREIGN KEY(dept_id)
+REFERENCES Department(dept_id)
+</code></pre>
+<p>It ensures referential integrity and prevents invalid department IDs in the Employee table.</p></body></html>
